@@ -37,21 +37,21 @@ export default function SingUp() {
         </View>
 
         <View style={styles.inputContainer}>
-          <Icon name="user" size={20} color="#888" style={styles.iconInput} />
-          <TextInput
-            style={styles.input}
-            placeholder="Edad"
-            placeholderTextColor="#888"
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
           <Icon name="calendar" size={20} color="#888" style={styles.iconInput} />
           <TouchableOpacity onPress={showDatePicker} style={styles.datePickerButton}>
             <Text style={styles.inputText}>
               {date ? date.toDateString() : "Fecha de nacimiento"}
             </Text>
           </TouchableOpacity>
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Icon name="user" size={20} color="#888" style={styles.iconInput} />
+          <TextInput
+            style={styles.input}
+            placeholder="Edad"
+            placeholderTextColor="#888"
+          />
         </View>
 
         {show && (

@@ -15,11 +15,11 @@ export default function Login({ navigation }) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
         <Image
-          source={{ uri: 'https://img.icons8.com/ios-glyphs/30/000000/home--v1.png' }}
+          source={require('../assets/adaptive-icon.png')}
           style={styles.icon}
         />
         <Text style={styles.loadingText}>GlimWay</Text>
-        <ActivityIndicator size="large" color="#68B36B" />
+        <ActivityIndicator size="large" color="#F9A761" />
       </SafeAreaView>
     );
   }
@@ -28,18 +28,18 @@ export default function Login({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={{ uri: 'https://img.icons8.com/ios-glyphs/30/000000/user--v1.png' }}
+          source={require('../assets/adaptive-icon.png')}
           style={styles.icon}
         />
         <Text style={styles.registerText}>Registrarse</Text>
       </View>
       <View style={styles.content}>
-        <Text style={styles.title}>LOGIN</Text>
+        <Text style={styles.title}>Login</Text>
         <View style={styles.inputContainer}>
           <Icon name="user" size={20} color="#888" style={styles.iconInput} />
           <TextInput
             style={styles.input}
-            placeholder="USUARIO"
+            placeholder="Usuario"
             placeholderTextColor="#888"
           />
         </View>
@@ -47,16 +47,16 @@ export default function Login({ navigation }) {
           <Icon name="lock" size={20} color="#888" style={styles.iconInput} />
           <TextInput
             style={styles.input}
-            placeholder="CONTRASEÑA"
+            placeholder="Contraseña"
             placeholderTextColor="#888"
             secureTextEntry
           />
         </View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('MainTabs')} // Navegar a la pantalla "Inicio"
+          onPress={() => navigation.navigate('MainTabs')}
         >
-          <Text style={styles.buttonText}>LOGIN</Text>
+          <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 5,
     fontSize: 15,
-    color: '#68B36B',
+    color: '#F9A761',
   },
   container: {
     flex: 1,
@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
     marginBottom: 10,
   },
   registerText: {
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     padding: 15,
-    backgroundColor: '#9AEB9D',
+    backgroundColor: '#F9A761',
     borderRadius: 10,
     alignItems: 'center',
     margin: 10,

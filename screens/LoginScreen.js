@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Login({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,6 +27,12 @@ export default function Login({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+      <LinearGradient
+        colors={['rgba(187,75,105,0.8)', 'rgba(249,167,97,0.9)']}
+        style={styles.background}
+      />
+    </View>
       <View style={styles.header}>
         <Image
           source={require('../assets/adaptive-icon.png')}
@@ -72,9 +79,16 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 600,
   },
   loadingText: {
     marginTop: 5,

@@ -61,7 +61,7 @@ export default function Login({ navigation }) {
         </View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('MainTabs')}
+          onPress={() => navigation.navigate('InicioCarrucel')}
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>

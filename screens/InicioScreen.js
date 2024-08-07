@@ -1,6 +1,6 @@
-// Inicio.js
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const data = [
   { id: '1', title: 'Casa en la playa', source: { uri: 'https://via.placeholder.com/100' } },
@@ -16,16 +16,21 @@ const data = [
 ];
 
 const Inicio = () => {
+  const navigation = useNavigation();
+
   const renderItem = ({ item }) => (
-    <View style={styles.item}>
+    <TouchableOpacity 
+      style={styles.item} 
+      onPress={() => navigation.navigate('Casas',{/*, { id: item.id }*/})}
+    >
       <Image style={styles.image} source={item.source} />
       <Text style={styles.title}>{item.title}</Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>MÁS BUSCADOS</Text>
+      <Text style={styles.header}>Más Buscados</Text>
       <FlatList
         data={data}
         renderItem={renderItem}
@@ -44,6 +49,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 16,
     paddingTop: 20,
+    paddingBottom: 70,
   },
   header: {
     fontSize: 24,

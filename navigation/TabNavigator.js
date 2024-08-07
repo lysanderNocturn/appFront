@@ -22,7 +22,7 @@ function MainTabs() {
       };
       return <Icon name={icons[route.name]} size={size} color={color} />;
     },
-    tabBarActiveTintColor: '#2a9df4',
+    tabBarActiveTintColor: '#ff8306',
     tabBarInactiveTintColor: '#8e8e93',
     tabBarStyle: {
       backgroundColor: '#ffffff',

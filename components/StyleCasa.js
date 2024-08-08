@@ -17,7 +17,6 @@ export default StyleSheet.create({
   houseImage: {
     width: '100%',
     height: '100%',
-    
     resizeMode: 'cover',
   },
   detailsContainer: {

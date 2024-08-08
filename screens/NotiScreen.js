@@ -1,4 +1,3 @@
-// Notificaciones.js
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 
@@ -6,7 +5,6 @@ const data = [
   { id: '1', user: 'USER 1', message: 'Mensaje de notificación', time: '10:44 p.m' },
   { id: '2', user: 'USER 2', message: 'Mensaje de notificación', time: '10:44 p.m' },
   { id: '3', user: 'USER 3', message: 'Mensaje de notificación', time: '10:44 p.m' },
-  // Añade más elementos según sea necesario
 ];
 
 const Notificaciones = () => {

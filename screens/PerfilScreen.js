@@ -47,30 +47,6 @@ const PerfilScreen = () => {
           </View>
         )}
 
-        {/* Historial de compras */}
-        <TouchableOpacity style={styles.option} onPress={() => toggleOption('historialCompras')}>
-          <Text style={styles.optionText}>Historial de compras</Text>
-          <Icon name={expandedOption === 'historialCompras' ? 'chevron-up' : 'chevron-down'} size={18} color="#555" />
-        </TouchableOpacity>
-        {expandedOption === 'historialCompras' && (
-          <View style={styles.subOption}>
-            {/* Contenido del historial de compras */}
-            <Text>Contenido del historial de compras</Text>
-          </View>
-        )}
-
-        {/* Notificaciones */}
-        <TouchableOpacity style={styles.option} onPress={() => toggleOption('notificaciones')}>
-          <Text style={styles.optionText}>Notificaciones</Text>
-          <Icon name={expandedOption === 'notificaciones' ? 'chevron-up' : 'chevron-down'} size={18} color="#555" />
-        </TouchableOpacity>
-        {expandedOption === 'notificaciones' && (
-          <View style={styles.subOption}>
-            {/* Configuración de notificaciones */}
-            <Text>Configuración de notificaciones</Text>
-          </View>
-        )}
-
         {/* Configuración */}
         <TouchableOpacity style={styles.option} onPress={() => toggleOption('configuracion')}>
           <Text style={styles.optionText}>Configuración</Text>

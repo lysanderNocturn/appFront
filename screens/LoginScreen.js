@@ -61,7 +61,7 @@ export default function Login({ navigation }) {
         </View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('MainTabs')}
+          onPress={() => navigation.navigate('InicioCarrucel')}
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
@@ -105,9 +105,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    width: 100,
-    height: 100,
-    marginBottom: 10,
+    width: 250,
+    height: 250,
+    marginBottom: 20,
   },
   registerText: {
     fontSize: 16,

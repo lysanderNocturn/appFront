@@ -1,15 +1,19 @@
-//npm install @react-native-community/datetimepicker
-
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Platform } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Platform, Alert } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function SingUp() {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { nombre, correo, username, password } = route.params; // Recibimos los datos del registro anterior
+
   const [date, setDate] = useState(new Date());
+  const [phone, setPhone] = useState('');
+  const [age, setAge] = useState('');
   const [show, setShow] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -19,6 +23,41 @@ export default function SingUp() {
 
   const showDatePicker = () => {
     setShow(true);
+  };
+
+  const handleSingUp = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('https://tu-api.com/singup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre,
+          correo,
+          username,
+          password,
+          phone,
+          birthdate: date,
+          age,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        Alert.alert('Registro exitoso', 'Has completado tu registro');
+        navigation.navigate('Login');
+      } else {
+        Alert.alert('Error', data.message || 'No se pudo completar el registro');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Hubo un problema con la conexión. Inténtalo de nuevo más tarde.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -33,6 +72,8 @@ export default function SingUp() {
             placeholder="Número de teléfono"
             placeholderTextColor="#888"
             keyboardType="phone-pad"
+            value={phone}
+            onChangeText={setPhone}
           />
         </View>
 
@@ -51,6 +92,8 @@ export default function SingUp() {
             style={styles.input}
             placeholder="Edad"
             placeholderTextColor="#888"
+            value={age}
+            onChangeText={setAge}
           />
         </View>
 
@@ -65,7 +108,7 @@ export default function SingUp() {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Login')}
+          onPress={handleSingUp}
         >
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
@@ -73,6 +116,7 @@ export default function SingUp() {
     </SafeAreaView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -141,4 +185,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-

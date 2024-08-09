@@ -1,25 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ActivityIndicator, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Login({ navigation }) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  useEffect(() => {
-    setTimeout(() => {
+  const handleLogin = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('https://tu-api.com/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        Alert.alert({username}, 'Bienvenido/a');
+        navigation.navigate('InicioCarrucel');
+      } else {
+        Alert.alert('Error', data.message || 'Credenciales incorrectas');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Hubo un problema con la conexión. Inténtalo de nuevo más tarde.');
+    } finally {
       setIsLoading(false);
-    }, 2000);
-  }, []);
+    }
+  };
 
   if (isLoading) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
-        <Image
-          source={require('../assets/adaptive-icon.png')}
-          style={styles.icon}
-        />
-        <Text style={styles.loadingText}>GlimWay</Text>
         <ActivityIndicator size="large" color="#F9A761" />
       </SafeAreaView>
     );
@@ -28,11 +49,11 @@ export default function Login({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-      <LinearGradient
-        colors={['rgba(187,75,105,0.8)', 'rgba(249,167,97,0.9)']}
-        style={styles.background}
-      />
-    </View>
+        <LinearGradient
+          colors={['rgba(187,75,105,0.8)', 'rgba(249,167,97,0.9)']}
+          style={styles.background}
+        />
+      </View>
       <View style={styles.header}>
         <Image
           source={require('../assets/adaptive-icon.png')}
@@ -48,6 +69,8 @@ export default function Login({ navigation }) {
             style={styles.input}
             placeholder="Usuario"
             placeholderTextColor="#888"
+            value={username}
+            onChangeText={setUsername}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -57,11 +80,13 @@ export default function Login({ navigation }) {
             placeholder="Contraseña"
             placeholderTextColor="#888"
             secureTextEntry
+            value={password}
+            onChangeText={setPassword}
           />
         </View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('InicioCarrucel')}
+          onPress={handleLogin}
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
@@ -75,6 +100,7 @@ export default function Login({ navigation }) {
     </SafeAreaView>
   );
 }
+
 
 const styles = StyleSheet.create({
   loadingContainer: {

@@ -124,6 +124,7 @@ export default StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     backgroundColor: '#f9f9f9',
+    paddingBottom: 30,
   },
   reserveButton: {
     margin: 20,

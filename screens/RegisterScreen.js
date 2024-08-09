@@ -1,11 +1,28 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Register() {
-  const navigation = useNavigation(); // Hook to access navigation
+  const navigation = useNavigation();
+  const [nombre, setNombre] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleNextStep = () => {
+    if (!nombre || !correo || !username || !password) {
+      Alert.alert('Error', 'Por favor, complete todos los campos');
+      return;
+    }
+    // Pasamos los datos a la pantalla SingUp
+    navigation.navigate('SingUp', {
+      nombre,
+      correo,
+      username,
+      password,
+    });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -18,6 +35,8 @@ export default function Register() {
             style={styles.input}
             placeholder="NOMBRE"
             placeholderTextColor="#888"
+            value={nombre}
+            onChangeText={setNombre}
           />
         </View>
 
@@ -27,6 +46,8 @@ export default function Register() {
             style={styles.input}
             placeholder="CORREO"
             placeholderTextColor="#888"
+            value={correo}
+            onChangeText={setCorreo}
           />
         </View>
 
@@ -36,6 +57,8 @@ export default function Register() {
             style={styles.input}
             placeholder="NOMBRE DE USUARIO"
             placeholderTextColor="#888"
+            value={username}
+            onChangeText={setUsername}
           />
         </View>
 
@@ -46,11 +69,14 @@ export default function Register() {
             placeholder="CONTRASEÑA"
             placeholderTextColor="#888"
             secureTextEntry
+            value={password}
+            onChangeText={setPassword}
           />
         </View>
+
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('SingUp')}
+          onPress={handleNextStep}
         >
           <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
@@ -58,6 +84,7 @@ export default function Register() {
     </SafeAreaView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

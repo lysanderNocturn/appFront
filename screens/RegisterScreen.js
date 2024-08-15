@@ -10,9 +10,22 @@ export default function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   const handleNextStep = () => {
     if (!nombre || !correo || !username || !password) {
       Alert.alert('Error', 'Por favor, complete todos los campos');
+      return;
+    }
+    if (!validateEmail(correo)) {
+      Alert.alert('Error', 'Por favor, ingrese un correo electrónico válido');
+      return;
+    }
+    if (password.length < 6) {
+      Alert.alert('Error', 'La contraseña debe tener al menos 6 caracteres');
       return;
     }
     // Pasamos los datos a la pantalla SingUp
@@ -84,7 +97,6 @@ export default function Register() {
     </SafeAreaView>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

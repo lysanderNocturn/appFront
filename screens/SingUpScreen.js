@@ -3,11 +3,13 @@ import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, Acti
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
+// Importar AsyncStorage
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function SingUp() {
+export default function SingUpScreen() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { nombre, correo, username, password } = route.params; // Recibimos los datos del registro anterior
+  const { nombre, correo, username, password } = route.params;
 
   const [date, setDate] = useState(new Date());
   const [phone, setPhone] = useState('');
@@ -19,13 +21,42 @@ export default function SingUp() {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+    calculateAge(currentDate);
   };
 
   const showDatePicker = () => {
     setShow(true);
   };
 
+  const validatePhone = (phone) => {
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(phone);
+  };
+
+  const calculateAge = (birthdate) => {
+    const today = new Date();
+    const birthDate = new Date(birthdate);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    setAge(age.toString());
+  };
+
   const handleSingUp = async () => {
+    if (!validatePhone(phone)) {
+      Alert.alert('Error', 'Por favor, ingrese un número de teléfono válido de 10 dígitos.');
+      return;
+    }
+
+    if (parseInt(age) < 18 || parseInt(age) > 100) {
+      Alert.alert('Error', 'La edad debe estar entre 18 y 100 años.');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -48,6 +79,16 @@ export default function SingUp() {
       const data = await response.json();
 
       if (response.ok) {
+        // Guardar los datos del usuario en AsyncStorage
+        await AsyncStorage.setItem('user', JSON.stringify({
+          nombre,
+          correo,
+          username,
+          phone,
+          birthdate: date,
+          age,
+        }));
+
         Alert.alert('Registro exitoso', 'Has completado tu registro');
         navigation.navigate('Login');
       } else {
@@ -94,6 +135,7 @@ export default function SingUp() {
             placeholderTextColor="#888"
             value={age}
             onChangeText={setAge}
+            editable={false} // La edad se calcula automáticamente, no se puede editar manualmente
           />
         </View>
 
@@ -112,6 +154,8 @@ export default function SingUp() {
         >
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
+
+        {isLoading && <ActivityIndicator size="large" color="#F9A761" />}
       </View>
     </SafeAreaView>
   );

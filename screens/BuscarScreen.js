@@ -1,15 +1,6 @@
-// Buscar.js
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // Puedes elegir otro set de íconos si lo prefieres
-import AntDesign from '@expo/vector-icons/AntDesign';
-
-const data = [
-  { id: '1', name: 'Casa en la Playa', description: 'Hermosa casa frente al mar', tags: ['playa', 'vacaciones', 'familia', 'lujo', 'cerca del mar'] },
-  { id: '2', name: 'Apartamento en la Ciudad', description: 'Moderno apartamento en el centro', tags: ['ciudad', 'moderno', 'conveniente', 'lugar turístico', 'cerca de transporte'] },
-  { id: '3', name: 'Cabaña en la Montaña', description: 'Cabaña acogedora en las montañas', tags: ['montaña', 'aventura', 'tranquilidad', 'rural', 'aire libre'] },
-  // Añade más elementos según sea necesario
-];
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const iconMap = {
   playa: 'beach-access',
@@ -23,7 +14,7 @@ const iconMap = {
   lugar_turistico: 'place',
   cerca_de_transporte: 'train',
   montaña: 'terrain',
-  aventura: 'drive',
+  aventura: 'explore',
   tranquilidad: 'spa',
   rural: 'grass',
   aire_libre: 'outdoor-grill',
@@ -31,12 +22,26 @@ const iconMap = {
 
 const Buscar = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const filteredData = data.filter(item =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  useEffect(() => {
+    if (searchQuery) {
+      setLoading(true);
+      fetch(`exp://192.168.1.66:8082/casas/search?query=${encodeURIComponent(searchQuery)}`)
+        .then(response => response.json())
+        .then(data => {
+          setResults(data);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching search results:', error);
+          setLoading(false);
+        });
+    } else {
+      setResults([]);
+    }
+  }, [searchQuery]);
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
@@ -45,10 +50,10 @@ const Buscar = () => {
         <Text style={styles.description}>{item.description}</Text>
         <View style={styles.tagsContainer}>
           {item.tags.map((tag, index) => (
-            <View key={index} style={styles.tag}>
+            <TouchableOpacity key={index} style={styles.tag}>
               <Icon name={iconMap[tag] || 'label'} size={20} color="#555" />
               <Text style={styles.tagText}>{tag}</Text>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </View>
@@ -57,19 +62,23 @@ const Buscar = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Buscar Tags</Text>
+      <Text style={styles.header}>Buscar Casas</Text>
       <TextInput
         style={styles.searchInput}
-        placeholder="Buscar..."
+        placeholder="Buscar por nombre, descripción, o tags..."
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
-      <FlatList
-        data={filteredData}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.list}
-      />
+      {loading ? (
+        <ActivityIndicator size="large" color="#000" />
+      ) : (
+        <FlatList
+          data={results}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.list}
+        />
+      )}
     </View>
   );
 };
@@ -79,6 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 16,
+    paddingTop: 10,
   },
   header: {
     fontSize: 24,
@@ -88,9 +98,10 @@ const styles = StyleSheet.create({
   searchInput: {
     borderWidth: 1,
     borderColor: '#ddd',
-    borderRadius: 5,
-    padding: 10,
+    borderRadius: 10,
+    padding: 12,
     marginBottom: 16,
+    fontSize: 16,
   },
   list: {
     alignItems: 'center',

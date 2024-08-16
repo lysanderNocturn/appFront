@@ -25,18 +25,17 @@ const duplicatedImages = [
     ...imagenes.slice(-1),
     ...imagenes,
     ...imagenes.slice(0, 1)
-]; // Duplicar el array de imágenes para el efecto de bucle
+]; // Este duplica las imagenes xd
 
-export default function App() {
+export default function BienvenidaModer() {
     const scrollX = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
-        const scrollDuration = 30000; // Duración total del ciclo de desplazamiento
         Animated.loop(
             Animated.sequence([
                 Animated.timing(scrollX, {
                     toValue: ESPACIO_CONTENEDOR * duplicatedImages.length,
-                    duration: 30000,
+                    duration: 3000,
                     useNativeDriver: true,
                 }),
                 Animated.timing(scrollX, {
@@ -166,4 +165,3 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     }
 });
-    

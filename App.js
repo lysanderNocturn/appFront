@@ -6,17 +6,18 @@ import RegisterScreen from './screens/RegisterScreen';
 import SingUpScreen from './screens/SingUpScreen';
 import MainTabs from './navigation/TabNavigator';
 import InicioScreen from './screens/InicioScreen';
-import InicioCarrucel from './screens/screens_animations/carrucelHome';
+import InicioCarrucel from './screens/carrucelHome';
 import CasasScreen from './screens/CasasScreen.js';
 import AdminTabs from './navigation/TabNavigatorAdmin';
 import TabModerador from './navigation/TabNavigatorModerador';
+import BienvenidaMod from './screens/screensModerador/BienvenidoMod.js';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="InicioCarrucel">
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SingUp" component={SingUpScreen} options={{ headerShown: false }} />
@@ -24,6 +25,9 @@ export default function App() {
         <Stack.Screen name="Inicio" component={InicioScreen} options={{ headerShown: false }} />
         <Stack.Screen name="InicioCarrucel" component={InicioCarrucel} options={{ headerShown: false }} />
         <Stack.Screen name="Casas" component={CasasScreen} />
+        <Stack.Screen name="AdminTabs" component={AdminTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="TabModerador" component={TabModerador} options={{ headerShown: false }} />
+        <Stack.Screen name="BienvenidaMod" component={BienvenidaMod} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

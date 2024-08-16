@@ -1,11 +1,46 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ActivityIndicator, Alert, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { LinearGradient } from 'expo-linear-gradient';
-import Svg, { G, Path, Defs, LinearGradient as SvgLinearGradient, Stop, ClipPath } from "react-native-svg";
-import Button from '../components/Button.js';
+import Button from '../components/Button.js'; // Asegúrate de que la ruta sea correcta
+import Svg, { G, Path, Defs, LinearGradient as SvgLinearGradient, Stop, ClipPath } from "react-native-svg"; // Importa Svg y otros elementos necesarios
 
 const { width } = Dimensions.get('window');
+
+function SvgComponent(props) {
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={395}
+      height={268}
+      fill="none"
+      {...props}
+    >
+      <G clipPath="url(#a)">
+        <Path
+          fill="url(#b)"
+          d="M484 73c0 107.696-128.718 195-287.5 195S-91 180.696-91 73 37.718-122 196.5-122 484-34.696 484 73Z"
+        />
+      </G>
+      <Defs>
+        <SvgLinearGradient
+          id="b"
+          x1={196.5}
+          x2={196.5}
+          y1={-122}
+          y2={268}
+          gradientUnits="userSpaceOnUse"
+        >
+          <Stop offset={0.5} stopColor="#F09ED5" />
+          <Stop offset={1} stopColor="#E89F56" />
+          <Stop offset={1} stopColor="#CD567C" stopOpacity={0.9} />
+        </SvgLinearGradient>
+        <ClipPath id="a">
+          <Path fill="#fff" d="M0 0h393v268H0z" />
+        </ClipPath>
+      </Defs>
+    </Svg>
+  );
+}
 
 export default function Login({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +64,7 @@ export default function Login({ navigation }) {
       }
 
       Alert.alert('Welcome', `Bienvenido/a ${simulatedResponse.name}`);
-      navigation.navigate('carruselHome'); // Cambia 'carruselHome' si tu pantalla tiene otro nombre
+      navigation.navigate('carruselInicio'); // Cambia 'carruselHome' si tu pantalla tiene otro nombre
     } catch (error) {
       console.error('Login error:', error);
       Alert.alert('Error', error.message || 'Hubo un problema con la conexión. Inténtalo de nuevo más tarde.');
@@ -43,42 +78,6 @@ export default function Login({ navigation }) {
       <SafeAreaView style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#F9A761" />
       </SafeAreaView>
-    );
-  }
-
-  function SvgComponent(props) {
-    return (
-      <Svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={395}
-        height={268}
-        fill="none"
-        {...props}
-      >
-        <G clipPath="url(#a)">
-          <Path
-            fill="url(#b)"
-            d="M484 73c0 107.696-128.718 195-287.5 195S-91 180.696-91 73 37.718-122 196.5-122 484-34.696 484 73Z"
-          />
-        </G>
-        <Defs>
-          <SvgLinearGradient
-            id="b"
-            x1={196.5}
-            x2={196.5}
-            y1={-122}
-            y2={268}
-            gradientUnits="userSpaceOnUse"
-          >
-            <Stop offset={0.5} stopColor="#F09ED5" />
-            <Stop offset={1} stopColor="#E89F56" />
-            <Stop offset={1} stopColor="#CD567C" stopOpacity={0.9} />
-          </SvgLinearGradient>
-          <ClipPath id="a">
-            <Path fill="#fff" d="M0 0h393v268H0z" />
-          </ClipPath>
-        </Defs>
-      </Svg>
     );
   }
 
@@ -114,8 +113,10 @@ export default function Login({ navigation }) {
             onChangeText={setPassword}
           />
         </View>
-        <Button title="Login" onPress={handleLogin} />
-        
+
+        {/* Aquí se usa el botón importado */}
+        <Button onPress={handleLogin} />
+
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
           <Text style={styles.subTitulo}>¿No tienes una cuenta? Regístrate</Text>
         </TouchableOpacity>

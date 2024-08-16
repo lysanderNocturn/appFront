@@ -30,8 +30,11 @@ const PerfilScreen = () => {
         </TouchableOpacity>
         {expandedOption === 'editarPerfil' && (
           <View style={styles.subOption}>
-            {/* Contenido editable del perfil */}
             <Text>Contenido editable del perfil</Text>
+            <TouchableOpacity style={styles.Button} onPress={() => navigation.navigate('BienvenidaMod')}>
+              <Text style={styles.ButtonText}>Hacer moderador</Text>
+            </TouchableOpacity>
+
           </View>
         )}
 
@@ -44,6 +47,9 @@ const PerfilScreen = () => {
           <View style={styles.subOption}>
             {/* Detalles del método de pago */}
             <Text>Detalles del método de pago</Text>
+            <TouchableOpacity style={styles.Button}>
+              <Text style={styles.ButtonText}>Agregar metodo de pago</Text>
+            </TouchableOpacity>
           </View>
         )}
 
@@ -56,6 +62,9 @@ const PerfilScreen = () => {
           <View style={styles.subOption}>
             {/* Opciones de configuración */}
             <Text>Opciones de configuración</Text>
+            <TouchableOpacity style={styles.Button}>
+              <Text style={styles.ButtonText}>Editar configuracion</Text>
+            </TouchableOpacity>
           </View>
         )}
 
@@ -67,7 +76,8 @@ const PerfilScreen = () => {
         {expandedOption === 'acercaDeNosotros' && (
           <View style={styles.subOption}>
             {/* Información sobre la empresa */}
-            <Text>Información sobre la empresa</Text>
+            <Text>contactanos (449-451-7431)</Text>
+            
           </View>
         )}
 
@@ -80,10 +90,11 @@ const PerfilScreen = () => {
           <View style={styles.subOption}>
             {/* Detalles de soporte técnico */}
             <Text>Detalles de soporte técnico</Text>
+            <Text>contactanos (449-451-7431)</Text>
           </View>
         )}
 
-        
+        {/* Cerrar Sesión */}
         <TouchableOpacity style={styles.option} onPress={handleLogout}>
           <Text style={styles.optionText}>Cerrar Sesión</Text>
           <Icon name='sign-out' size={18} color="#555" />
@@ -130,6 +141,19 @@ const styles = StyleSheet.create({
   subOption: {
     paddingHorizontal: 20,
     paddingBottom: 10,
+  },
+  Button: {
+    marginTop: 10,
+    backgroundColor: '#f1ac84',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  ButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

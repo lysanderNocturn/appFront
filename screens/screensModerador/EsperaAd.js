@@ -10,7 +10,7 @@ export default function ScreenEspera() {
         <Text style={styles.subtitle}>Espera a que el administrador acepte tu anuncio</Text>
         <View style={styles.iconContainer}>
           <Image
-            source={require('../assets/way_icone.png')}
+            source={require('../../assets/imgs/casa (1).jpg')}
             style={styles.icon}
           />
         </View>

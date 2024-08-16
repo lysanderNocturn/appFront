@@ -14,10 +14,11 @@ const imagenes = [
     "https://i.pinimg.com/236x/5a/79/3f/5a793fe9fed2ebb48eaaf88f3f284372.jpg",
     "https://i.pinimg.com/474x/d1/06/82/d106825756383b8e59e5c4a8a2957a2a.jpg",
     "https://i.pinimg.com/236x/63/2f/04/632f0465c84a824420a46dfa1b8f8f4d.jpg",
+    
 ];
 
 const { width } = Dimensions.get('window');
-const ESPACIO_CONTENEDOR = width * 0.6;
+const ESPACIO_CONTENEDOR = width * 0.5;
 const ESPACIO_LATERAL = (width - ESPACIO_CONTENEDOR) / 2;
 const ESPACIO = 10;
 
@@ -35,12 +36,12 @@ export default function BienvenidaModer() {
             Animated.sequence([
                 Animated.timing(scrollX, {
                     toValue: ESPACIO_CONTENEDOR * duplicatedImages.length,
-                    duration: 3000,
+                    duration: 30000,
                     useNativeDriver: true,
                 }),
                 Animated.timing(scrollX, {
                     toValue: 0,
-                    duration: 30,
+                    duration: 300,
                     useNativeDriver: true,
                 })
             ])
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: '#2271b3', // Ajusta el color al azul de la palabra "AVENTURA"
+        color: '#ff8b53', // Ajusta el color al azul de la palabra "AVENTURA"
     },
     subtitle: {
         fontSize: 16,

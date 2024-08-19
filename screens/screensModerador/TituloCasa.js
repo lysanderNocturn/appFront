@@ -2,8 +2,10 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { Provider as PaperProvider, TextInput as PaperInput } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function TituloCasa() {
+  const navigation = useNavigation();
   return (
     <PaperProvider>
       <View style={styles.container}>
@@ -25,9 +27,9 @@ export default function TituloCasa() {
           style={styles.textarea}
         />
         <View style={styles.navigation}>
-        <TouchableOpacity style={styles.navButton}>
-          <Text style={styles.navButtonText}>Publicar</Text>
-          <AntDesign name="right" size={20} color="black" />
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('FinalA')}>
+          <Text style={styles.navButtonText}>Continuar</Text>
+          <AntDesign name="right" size={20} color="fff" />
         </TouchableOpacity>
       </View>
       </View>
@@ -58,16 +60,16 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#E89F56',
+    color: '#d98e50',
   },
   input: {
     marginBottom: 30,
-    borderColor:'#F5DDD9',
+    borderColor:'#d98e50',
     backgroundColor:'#fff'
   },
   textarea: {
     height: 100,
-    borderColor:'#F5DDD9',
+    borderColor:'#d98e50',
     backgroundColor:'#fff'
   },
   navigation: {
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
   navButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#d98e50',
     padding: 10,
     marginLeft: 60,
     borderRadius: 10,
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
     borderWidth:3
   },
   navButtonText: {
-    color: '#000',
+    color: '#fff',
     fontSize: 20,
     marginHorizontal: 10,
   },

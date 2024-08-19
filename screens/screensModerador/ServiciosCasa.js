@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ServiciosCasa() {
+  const navigation = useNavigation();
   const servicesList = ['WIFI', 'TV', 'COCINA', 'LAVADORA', 'COCHERA', 'AIRE ACONDICIONADO', 'ALBERCA', 'ASADOR', 'COMEDOR', 'CUARTO DE SERVICIO'];
 
   const [selectedServices, setSelectedServices] = useState([]);
@@ -33,9 +35,9 @@ export default function ServiciosCasa() {
         ))}
       </View>
       <View style={styles.navigation}>
-        <TouchableOpacity style={styles.navButton}>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('SegundoA')}>
           <Text style={styles.navButtonText}>PUBLICAR</Text>
-          <AntDesign name="right" size={20} color="black" />
+          <AntDesign name="right" size={20} color="white" />
         </TouchableOpacity>
       </View>
     </View>
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#E89F56',
+    color: '#d98e50',
   },
   title: {
     marginBottom: 20,
@@ -94,17 +96,14 @@ const styles = StyleSheet.create({
   navButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#d98e50',
     padding: 10,
-    marginLeft: 60,
     borderRadius: 10,
-    borderColor:'#E89F56',
-    borderWidth:3
   },
   navButtonText: {
-    color: '#000',
+    color: '#fff',
     fontSize: 20,
-    marginHorizontal: 10,
+    marginHorizontal: 5,
   },
   icon: {
     marginHorizontal: 5,

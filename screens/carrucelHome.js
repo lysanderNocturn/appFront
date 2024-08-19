@@ -6,12 +6,12 @@ import * as Progress from 'react-native-progress';
 
 const images = {
   1: require('../assets/imgs/casa (1).jpg'),
-  3: require('../assets/imgs/casa (3).jpg'),
-  4: require('../assets/imgs/casa (4).jpg'),
-  5: require('../assets/imgs/casa (5).jpg'),
-  6: require('../assets/imgs/casa (6).jpg'),
-  7: require('../assets/imgs/casa (7).jpg'),
-  8: require('../assets/imgs/casa (8).jpg'),
+  2: require('../assets/imgs/casa (3).jpg'),
+  3: require('../assets/imgs/casa (4).jpg'),
+  4: require('../assets/imgs/casa (5).jpg'),
+  5: require('../assets/imgs/casa (6).jpg'),
+  6: require('../assets/imgs/casa (7).jpg'),
+  7: require('../assets/imgs/casa (8).jpg'),
 };
 
 export default function InicioCarrucel({ navigation }) {
@@ -21,7 +21,7 @@ export default function InicioCarrucel({ navigation }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const images = generateRandomImages(3);
+    const images = generateRandomImages(7);
     setRandomImages(images);
 
     const autoSlide = setInterval(() => {
@@ -30,18 +30,18 @@ export default function InicioCarrucel({ navigation }) {
         pagerRef.current.setPage(nextPage);
         return nextPage;
       });
-    }, 3000);
+    }, 1000);
 
     const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 1) return 1;
-        return prev + 1 / 9;
+        return prev + 1 / 3;
       });
     }, 1000);
 
     const timer = setTimeout(() => {
       navigation.replace('MainTabs');
-    }, 9000);
+    }, 3000);
 
     return () => {
       clearTimeout(timer);
@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
+    marginBottom: 90
   },
   image: {
     width: '100%',
@@ -131,12 +132,10 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   welcomeText: {
-    fontSize: 26,
+    fontSize: 50,
     fontWeight: 'bold',
-    marginTop: 40,
-    color: '#F9A761',
-    textShadowColor: '#000',
-    textShadowOffset: { width: 2, height: 2 },
+    marginTop: 80,
+    color: '#313031',
     textShadowRadius: 3,
   },
   progressBar: {

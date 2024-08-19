@@ -8,16 +8,16 @@ export default function AnuncioMod() {
   
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>¡DESCRIBE TU ESPACIO!</Text>
-      <Text style={styles.subtitle}>Ingresa datos básicos para comenzar.</Text>
+      <Text style={styles.title}>¡DALE UN TOQUE ESPECIAL!</Text>
+      <Text style={styles.subtitle}>Diseña y decora tu anuncio a tu manera</Text>
       <View>
         <Image 
-          source={{ uri: "https://i.pinimg.com/736x/7b/14/92/7b1492bef9f55c8e90098492fc838dfd.jpg" }}  
+          source={{ uri: "https://i.pinimg.com/564x/91/39/92/9139924270819837c3e74439fa6216bb.jpg" }}  
           style={styles.image}
           resizeMode="cover" // Cambiar a "cover" o "contain" para mejor ajuste
         />
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Descripcion')} style={styles.button}>
+      <TouchableOpacity onPress={() => navigation.navigate('Titulo')} style={styles.button}>
         <Text style={styles.buttonText}>CONTINUAR</Text>
       </TouchableOpacity>
     </SafeAreaView>

@@ -31,8 +31,8 @@ const PerfilScreen = () => {
         {expandedOption === 'editarPerfil' && (
           <View style={styles.subOption}>
             <Text>Contenido editable del perfil</Text>
-            <TouchableOpacity style={styles.Button} onPress={() => navigation.navigate('BienvenidaMod')}>
-              <Text style={styles.ButtonText}>Hacer moderador</Text>
+            <TouchableOpacity style={styles.Button}>
+              <Text style={styles.ButtonText}>Editar Perfil</Text>
             </TouchableOpacity>
 
           </View>
@@ -134,9 +134,11 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+    
   },
   optionText: {
     fontSize: 18,
+    
   },
   subOption: {
     paddingHorizontal: 20,
@@ -144,7 +146,7 @@ const styles = StyleSheet.create({
   },
   Button: {
     marginTop: 10,
-    backgroundColor: '#f1ac84',
+    backgroundColor: '#d28556',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

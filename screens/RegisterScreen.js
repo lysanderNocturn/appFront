@@ -6,9 +6,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default function Register() {
   const navigation = useNavigation();
   const [nombre, setNombre] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setCorreo] = useState('');
+  const [pass, setPassword] = useState('');
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,24 +15,23 @@ export default function Register() {
   };
 
   const handleNextStep = () => {
-    if (!nombre || !correo || !username || !password) {
+    if (!nombre || !email || !pass) {
       Alert.alert('Error', 'Por favor, complete todos los campos');
       return;
     }
-    if (!validateEmail(correo)) {
+    if (!validateEmail(email)) {
       Alert.alert('Error', 'Por favor, ingrese un correo electrónico válido');
       return;
     }
-    if (password.length < 6) {
+    if (pass.length < 6) {
       Alert.alert('Error', 'La contraseña debe tener al menos 6 caracteres');
       return;
     }
     // Pasamos los datos a la pantalla SingUp
     navigation.navigate('SingUp', {
       nombre,
-      correo,
-      username,
-      password,
+      email,
+      pass,
     });
   };
 
@@ -59,19 +57,8 @@ export default function Register() {
             style={styles.input}
             placeholder="CORREO"
             placeholderTextColor="#888"
-            value={correo}
+            value={email}
             onChangeText={setCorreo}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Icon name="user" size={20} color="#888" style={styles.iconInput} />
-          <TextInput
-            style={styles.input}
-            placeholder="NOMBRE DE USUARIO"
-            placeholderTextColor="#888"
-            value={username}
-            onChangeText={setUsername}
           />
         </View>
 
@@ -82,7 +69,7 @@ export default function Register() {
             placeholder="CONTRASEÑA"
             placeholderTextColor="#888"
             secureTextEntry
-            value={password}
+            value={pass}
             onChangeText={setPassword}
           />
         </View>
@@ -91,7 +78,7 @@ export default function Register() {
           style={styles.button}
           onPress={handleNextStep}
         >
-          <Text style={styles.buttonText}>Next</Text>
+          <Text style={styles.buttonText}>Continuar</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

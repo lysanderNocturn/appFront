@@ -3,13 +3,12 @@ import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, Acti
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
-// Importar AsyncStorage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function SingUpScreen() {
+export default function SignUpScreen() {  // Cambiado a "SignUpScreen" correctamente
   const navigation = useNavigation();
   const route = useRoute();
-  const { nombre, correo, username, password } = route.params;
+  const { nombre, email, pass } = route.params;
 
   const [date, setDate] = useState(new Date());
   const [phone, setPhone] = useState('');
@@ -46,49 +45,47 @@ export default function SingUpScreen() {
     setAge(age.toString());
   };
 
-  const handleSingUp = async () => {
+  const handleSignUp = async () => {  // Cambiado a "handleSignUp" correctamente
     if (!validatePhone(phone)) {
       Alert.alert('Error', 'Por favor, ingrese un número de teléfono válido de 10 dígitos.');
       return;
     }
-
+  
     if (parseInt(age) < 18 || parseInt(age) > 100) {
       Alert.alert('Error', 'La edad debe estar entre 18 y 100 años.');
       return;
     }
-
+  
     setIsLoading(true);
-
+  
     try {
-      const response = await fetch('https://tu-api.com/singup', {
+      const response = await fetch('https://api-7ix3.onrender.com/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           nombre,
-          correo,
-          username,
-          password,
-          phone,
-          birthdate: date,
-          age,
+          email: email,
+          pass: pass,
+          telefono: phone,
+          edad: parseInt(age),
+          nacimiento: date,
         }),
       });
-
+  
       const data = await response.json();
-
+      console.log(data)
       if (response.ok) {
         // Guardar los datos del usuario en AsyncStorage
-        await AsyncStorage.setItem('user', JSON.stringify({
+        await AsyncStorage.setItem('User', JSON.stringify({
           nombre,
-          correo,
-          username,
+          email: email,
           phone,
-          birthdate: date,
-          age,
+          nacimiento: date,
+          edad: parseInt(age),
         }));
-
+  
         Alert.alert('Registro exitoso', 'Has completado tu registro');
         navigation.navigate('Login');
       } else {
@@ -96,11 +93,12 @@ export default function SingUpScreen() {
       }
     } catch (error) {
       Alert.alert('Error', 'Hubo un problema con la conexión. Inténtalo de nuevo más tarde.');
+      console.log(error)
     } finally {
       setIsLoading(false);
     }
   };
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.card}>
@@ -122,7 +120,7 @@ export default function SingUpScreen() {
           <Icon name="calendar" size={20} color="#888" style={styles.iconInput} />
           <TouchableOpacity onPress={showDatePicker} style={styles.datePickerButton}>
             <Text style={styles.inputText}>
-              {date ? date.toDateString() : "Fecha de nacimiento"}
+              {date ? date.toDateString() : "Selecciona tu fecha de nacimiento"}
             </Text>
           </TouchableOpacity>
         </View>
@@ -134,8 +132,7 @@ export default function SingUpScreen() {
             placeholder="Edad"
             placeholderTextColor="#888"
             value={age}
-            onChangeText={setAge}
-            editable={false} // La edad se calcula automáticamente, no se puede editar manualmente
+            editable={false}
           />
         </View>
 
@@ -150,9 +147,9 @@ export default function SingUpScreen() {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={handleSingUp}
+          onPress={handleSignUp}  // Cambiado a "handleSignUp"
         >
-          <Text style={styles.buttonText}>Register</Text>
+          <Text style={styles.buttonText}>Registrar</Text>
         </TouchableOpacity>
 
         {isLoading && <ActivityIndicator size="large" color="#F9A761" />}
@@ -160,7 +157,6 @@ export default function SingUpScreen() {
     </SafeAreaView>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

@@ -228,12 +228,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   reserveButton: {
-    backgroundColor: '#ff8000',
-    paddingVertical: 15,
+    marginTop: 10,
+    backgroundColor: '#CD567C',
+    paddingVertical: 10,
     alignItems: 'center',
-    marginHorizontal: 15,
+    marginHorizontal: 20,
     marginBottom: 30,
-    borderRadius: 5,
+    borderRadius: 10,
   },
   reserveButtonText: {
     color: '#fff',

@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function DetallesCasa() {
+  const navigation = useNavigation();
   const [rooms, setRooms] = useState(6);
   const [beds, setBeds] = useState(3);
   const [bathrooms, setBathrooms] = useState(2);
@@ -11,7 +13,7 @@ export default function DetallesCasa() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>DETALLES DEL ALOJAMIENTO</Text>
+      <Text style={styles.title}>DETALLES DEL <Text style={styles.link}>ALOJAMIENTO!</Text></Text>
       
       <View style={styles.row}>
         <Text style={styles.label}>Habitaciones</Text>
@@ -66,7 +68,7 @@ export default function DetallesCasa() {
       </View>
 
       <View style={styles.navigation}>
-        <TouchableOpacity style={styles.navButton}>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Servicios')}>
           <Text style={styles.navButtonText}>Siguiente</Text>
           <AntDesign name="right" size={20} color="white" />
         </TouchableOpacity>
@@ -88,6 +90,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000', // Naranja suave
     marginBottom: 50,
+    textAlign: 'center'
+  },
+  link: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#d98e50',
   },
   row: {
     flexDirection: 'row',
@@ -104,9 +113,9 @@ const styles = StyleSheet.create({
     height: 50,
     width: 100,
     color: '#000',
-    backgroundColor: '#CEC5D1',
+    backgroundColor: '#e8e3e3',
     borderColor:'#F5DDD9', 
-    borderWidth: 8,
+    borderWidth: 0,
     borderRadius: 20,
   },
   navigation: {
@@ -118,7 +127,7 @@ const styles = StyleSheet.create({
   navButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#CD567C',
+    backgroundColor: '#d98e50',
     padding: 10,
     borderRadius: 10,
   },

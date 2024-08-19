@@ -1,20 +1,20 @@
 // Inicio.js
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 
 const data = [
-  { id: '1', title: 'Casa en la playa', source: { uri: 'https://via.placeholder.com/100' } },
-  { id: '2', title: 'Apartamento moderno', source: { uri: 'https://via.placeholder.com/100' } },
-  { id: '3', title: 'Cabaña en la montaña', source: { uri: 'https://via.placeholder.com/100' } },
-  { id: '4', title: 'Casa de campo', source: { uri: 'https://via.placeholder.com/100' } },
+  { id: '1', title: 'Casa en la playa', source: { uri: 'https://i.pinimg.com/236x/9d/a6/d1/9da6d1bbcffc62386312f24e0111a2c6.jpg' } },
+  { id: '5', title: 'Loft en el centro', source: { uri: 'https://i.pinimg.com/236x/a5/c2/91/a5c291b8dd219ba272916398d70e83e1.jpg' } },
+  { id: '7', title: 'Mansión y playa', source: { uri: 'https://i.pinimg.com/236x/ef/91/53/ef9153d0a88d501ab8011cbda0308751.jpg' } },
+  { id: '8', title: 'Exotico', source: { uri: 'https://i.pinimg.com/236x/4b/d7/9d/4bd79db0264963ad5d4aad94ee6ee66c.jpg' } },
 ];
 
 const Favorito = () => {
   const renderItem = ({ item }) => (
-    <View style={styles.item}>
+    <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('Casas',{item})}>
       <Image style={styles.image} source={item.source} />
       <Text style={styles.title}>{item.title}</Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -40,9 +40,11 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   header: {
-    fontSize: 24,
+    marginTop: 25,
+    fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 16,
+    textAlign: 'center'
   },
   list: {
     paddingBottom: 16,
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     margin: 8,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#f2efed',
     padding: 10,
     borderRadius: 10,
     elevation: 2,
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    marginTop: 20
   },
   image: {
     width: 100,

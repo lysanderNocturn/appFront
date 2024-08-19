@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ActivityIndicator, Alert, Dimensions } from 'react-native';
+import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ActivityIndicator, Alert, Dimensions, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Button from '../components/Button.js'; // Asegúrate de que la ruta sea correcta
-import Svg, { G, Path, Defs, LinearGradient as SvgLinearGradient, Stop, ClipPath } from "react-native-svg"; // Importa Svg y otros elementos necesarios
+import Svg, { G, Path, Defs, LinearGradient as SvgLinearGradient, Stop, ClipPath } from "react-native-svg";
 
 const { width } = Dimensions.get('window');
 
@@ -43,85 +42,98 @@ function SvgComponent(props) {
 }
 
 export default function Login({ navigation }) {
-  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [pass, setPass] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-    setIsLoading(true);
+    if (!email || !pass) {
+      Alert.alert('Error', 'Por favor, ingresa tu email y contraseña.');
+      return;
+    }
+
+    setLoading(true);
 
     try {
-      // Simulación del acceso
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simula un retraso de 2 segundos
+      const response = await fetch('https://api-7ix3.onrender.com/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, pass }),
+      });
 
-      const simulatedResponse = {
-        ok: true, // Cambia esto a false para simular un error
-        name: 'usuario'
-      };
+      const data = await response.json();
 
-      if (!simulatedResponse.ok) {
-        throw new Error('Credenciales incorrectas');
+      if (response.ok) {
+        Alert.alert('Éxito', 'Has iniciado sesión correctamente');
+        navigation.navigate('InicioCarrucel');
+      } else {
+        Alert.alert('Error', data.message || 'Error al iniciar sesión');
       }
-
-      Alert.alert('Welcome', `Bienvenido/a ${simulatedResponse.name}`);
-      navigation.navigate('carruselInicio'); // Cambia 'carruselHome' si tu pantalla tiene otro nombre
     } catch (error) {
-      console.error('Login error:', error);
-      Alert.alert('Error', error.message || 'Hubo un problema con la conexión. Inténtalo de nuevo más tarde.');
+      Alert.alert('Error', 'Ocurrió un error al conectar con el servidor');
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  if (isLoading) {
-    return (
-      <SafeAreaView style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#F9A761" />
-      </SafeAreaView>
-    );
-  }
-
   return (
-    <SafeAreaView style={styles.mainContainer}>
-      <View style={styles.containerSVG}>
-        <SvgComponent />
-      </View>
-      <View style={styles.container}>
-        <Image
-          source={require('../assets/adaptive-icon.png')}
-          style={styles.logo}
-        />
-        <Text style={styles.titulo}>BIENVENIDO</Text>
-        <View style={styles.inputContainer}>
-          <Icon name="envelope" size={20} color="#888" style={styles.iconInput} />
-          <TextInput
-            style={styles.textInput}
-            placeholder="Email"
-            placeholderTextColor="#888"
-            value={email}
-            onChangeText={setEmail}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Icon name="lock" size={20} color="#888" style={styles.iconInput} />
-          <TextInput
-            style={styles.textInput}
-            placeholder="Contraseña"
-            placeholderTextColor="#888"
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
-          />
-        </View>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <SafeAreaView style={styles.mainContainer}>
+          <View style={styles.containerSVG}>
+            <SvgComponent />
+          </View>
+          <View style={styles.container}>
+            <Image
+              source={require('../assets/adaptive-icon.png')}
+              style={styles.logo}
+            />
+            <Text style={styles.titulo}>BIENVENIDO</Text>
+            <View style={styles.inputContainer}>
+              <Icon name="envelope" size={20} color="#888" style={styles.iconInput} />
+              <TextInput
+                style={styles.textInput}
+                placeholder="Email"
+                placeholderTextColor="#888"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Icon name="lock" size={20} color="#888" style={styles.iconInput} />
+              <TextInput
+                style={styles.textInput}
+                placeholder="Contraseña"
+                placeholderTextColor="#888"
+                secureTextEntry
+                value={pass}
+                onChangeText={setPass}
+              />
+            </View>
 
-        {/* Aquí se usa el botón importado */}
-        <Button onPress={handleLogin} />
+            {loading ? (
+              <ActivityIndicator size="large" color="#F9A761" />
+            ) : (
+              <TouchableOpacity style={styles.button} onPress={handleLogin}>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.subTitulo}>¿No tienes una cuenta? Regístrate</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+                  <Text style={styles.text}>Iniciar Sesión</Text>
+              </TouchableOpacity>
+            )}
+
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+              <Text style={styles.subTitulo}>¿No tienes una cuenta? Regístrate</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -144,6 +156,7 @@ const styles = StyleSheet.create({
     fontSize: 45,
     color: '#34434D',
     fontWeight: 'bold',
+    marginBottom: 20
   },
   subTitulo: {
     fontSize: 15,
@@ -171,27 +184,24 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 30,
   },
-  button: {
-    width: '80%',
-    padding: 15,
-    backgroundColor: '#F9A761',
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  buttonText: {
+  text: {
+    fontSize: 20,
     color: '#fff',
-    fontSize: 16,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    resizeMode: 'cover',
-  },
-  loadingContainer: {
-    flex: 1,
+    fontWeight: 'bold',
+},
+button: {
+  marginTop:30,
+    width: '50%',
+    height: 50,
+    borderRadius: 25,
+    padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor:"#CD567C"
+},
+  logo: {
+    width: 120,
+    height: 120,
+    resizeMode: 'cover',
   },
 });

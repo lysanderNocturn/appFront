@@ -7,14 +7,14 @@ export default function Button() {
     const navigation = useNavigation(); // Obtén el objeto navigation
 
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('carruselHome')}>
+        <TouchableOpacity style={styles.container} onPress={handleLogin}>
             <LinearGradient
                 colors={['#CD567C', '#E89F56']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.button}
             >
-                <Text style={styles.text}>Iniciar sesión</Text>
+                <Text style={styles.text}>Iniciar Sesión</Text>
             </LinearGradient>
         </TouchableOpacity>
     );

@@ -15,7 +15,7 @@ function MainTabs() {
     tabBarIcon: ({ color, size }) => {
       const icons = {
         Inicio: 'home',
-        Notificaciones: 'envelope', 
+        Mensajes: 'envelope', 
         Buscar: 'search',
         Favorito: 'heart',
         Perfil: 'user',
@@ -54,7 +54,7 @@ function MainTabs() {
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen name="Inicio" component={InicioScreen} />
       <Tab.Screen name="Buscar" component={BuscarScreen} />
-      <Tab.Screen name="Notificaciones" component={NotiScreen} />
+      <Tab.Screen name="Mensajes" component={NotiScreen} />
       <Tab.Screen name="Favorito" component={FavoritoScreen} />
       <Tab.Screen name="Perfil" component={PerfilScreen} />
     </Tab.Navigator>

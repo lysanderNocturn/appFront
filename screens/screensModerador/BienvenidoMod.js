@@ -1,7 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, FlatList, Image, Animated } from 'react-native';
+import React, { useEffect, useRef, useMemo } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+
+const { width } = Dimensions.get('window');
+const CONTAINER_WIDTH = width * 0.6;
+const SPACING = 10;
 
 const imagenes = [
     "https://i.pinimg.com/474x/26/2d/e1/262de10df81418db09c78d22c2d71bed.jpg",
@@ -14,43 +18,38 @@ const imagenes = [
     "https://i.pinimg.com/236x/5a/79/3f/5a793fe9fed2ebb48eaaf88f3f284372.jpg",
     "https://i.pinimg.com/474x/d1/06/82/d106825756383b8e59e5c4a8a2957a2a.jpg",
     "https://i.pinimg.com/236x/63/2f/04/632f0465c84a824420a46dfa1b8f8f4d.jpg",
-    
 ];
 
-const { width } = Dimensions.get('window');
-const ESPACIO_CONTENEDOR = width * 0.5;
-const ESPACIO_LATERAL = (width - ESPACIO_CONTENEDOR) / 2;
-const ESPACIO = 10;
-
-const duplicatedImages = [ 
-    ...imagenes.slice(-1),
-    ...imagenes,
-    ...imagenes.slice(0, 1)
-]; // Este duplica las imagenes xd
+const getDuplicatedImages = (images) => {
+    return [...images.slice(-1), ...images, ...images.slice(0, 1)];
+};
 
 export default function BienvenidaModer() {
+    const navigation = useNavigation();
     const scrollX = useRef(new Animated.Value(0)).current;
+
+    const duplicatedImages = useMemo(() => getDuplicatedImages(imagenes), [imagenes]);
 
     useEffect(() => {
         Animated.loop(
             Animated.sequence([
                 Animated.timing(scrollX, {
-                    toValue: ESPACIO_CONTENEDOR * duplicatedImages.length,
+                    toValue: CONTAINER_WIDTH * duplicatedImages.length,
                     duration: 30000,
                     useNativeDriver: true,
                 }),
                 Animated.timing(scrollX, {
                     toValue: 0,
-                    duration: 300,
+                    duration: 0,
                     useNativeDriver: true,
                 })
             ])
-        ).start(0);
-    }, [scrollX]);
+        ).start();
+    }, [scrollX, duplicatedImages.length]);
 
     const animatedTranslateX = scrollX.interpolate({
-        inputRange: [0, ESPACIO_CONTENEDOR * duplicatedImages.length],
-        outputRange: [0, -ESPACIO_CONTENEDOR * duplicatedImages.length]
+        inputRange: [0, CONTAINER_WIDTH * duplicatedImages.length],
+        outputRange: [0, -CONTAINER_WIDTH * duplicatedImages.length]
     });
 
     return (
@@ -61,8 +60,7 @@ export default function BienvenidaModer() {
                 Cada huésped trae una nueva historia. {'\n'}
                 ¡Crea recuerdos inolvidables siendo un anfitrión!
             </Text>
-            <View style={styles.container}>
-                <StatusBar hidden />
+            <View style={styles.carouselContainer}>
                 <Animated.View
                     style={{
                         flexDirection: 'row',
@@ -70,48 +68,16 @@ export default function BienvenidaModer() {
                     }}
                 >
                     {duplicatedImages.map((item, index) => (
-                        <View key={index} style={{ width: ESPACIO_CONTENEDOR }}>
-                            <Animated.View
-                                style={{
-                                    marginHorizontal: ESPACIO,
-                                    padding: ESPACIO,
-                                    borderRadius: 34,
-                                    backgroundColor: "#fff",
-                                    alignItems: "center",
-                                    transform: [
-                                        {
-                                            scale: scrollX.interpolate({
-                                                inputRange: [
-                                                    (index - 1) * ESPACIO_CONTENEDOR,
-                                                    index * ESPACIO_CONTENEDOR,
-                                                    (index + 1) * ESPACIO_CONTENEDOR,
-                                                ],
-                                                outputRange: [1, 1.1, 1],
-                                                extrapolate: 'clamp',
-                                            }),
-                                        },
-                                        {
-                                            translateY: scrollX.interpolate({
-                                                inputRange: [
-                                                    (index - 1) * ESPACIO_CONTENEDOR,
-                                                    index * ESPACIO_CONTENEDOR,
-                                                    (index + 1) * ESPACIO_CONTENEDOR,
-                                                ],
-                                                outputRange: [0, -50, 0],
-                                                extrapolate: 'clamp',
-                                            }),
-                                        },
-                                    ],
-                                }}
-                            >
+                        <View key={index} style={styles.imageContainer}>
+                            <Animated.View style={styles.imageWrapper(scrollX, index)}>
                                 <Image source={{ uri: item }} style={styles.posterImage} />
                             </Animated.View>
                         </View>
                     ))}
                 </Animated.View>
             </View>
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>COMIENZA AHORA</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Anuncio')} style={styles.button}>
+                <Text style={styles.buttonText}>CONTINUAR</Text>
             </TouchableOpacity>
         </SafeAreaView>
     );
@@ -126,6 +92,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     title: {
+        paddingTop:15,
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -135,13 +102,59 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: '#ff8b53', // Ajusta el color al azul de la palabra "AVENTURA"
+        color: '#ff8b53',
     },
     subtitle: {
         fontSize: 16,
         textAlign: 'center',
         color: '#7A7A7A',
         marginVertical: 20,
+    },
+    carouselContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    imageContainer: {
+        width: CONTAINER_WIDTH,
+    },
+    imageWrapper: (scrollX, index) => ({
+        marginHorizontal: SPACING,
+        padding: SPACING,
+        borderRadius: 34,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        transform: [
+            {
+                scale: scrollX.interpolate({
+                    inputRange: [
+                        (index - 1) * CONTAINER_WIDTH,
+                        index * CONTAINER_WIDTH,
+                        (index + 1) * CONTAINER_WIDTH,
+                    ],
+                    outputRange: [1, 1.1, 1],
+                    extrapolate: 'clamp',
+                }),
+            },
+            {
+                translateY: scrollX.interpolate({
+                    inputRange: [
+                        (index - 1) * CONTAINER_WIDTH,
+                        index * CONTAINER_WIDTH,
+                        (index + 1) * CONTAINER_WIDTH,
+                    ],
+                    outputRange: [0, -50, 0],
+                    extrapolate: 'clamp',
+                }),
+            },
+        ],
+    }),
+    posterImage: {
+        width: "100%",
+        height: CONTAINER_WIDTH * 1.4,
+        resizeMode: "cover",
+        borderRadius: 24,
+        marginBottom: 10,
     },
     button: {
         backgroundColor: '#000',
@@ -150,6 +163,11 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         flexDirection: 'row',
         alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        marginBottom: 30,
     },
     buttonText: {
         color: '#fff',
@@ -157,12 +175,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
-    posterImage: {
-        width: "100%",
-        height: ESPACIO_CONTENEDOR * 1.4,
-        resizeMode: "cover",
-        borderRadius: 24,
-        margin: 0,
-        marginBottom: 10,
-    }
 });

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ActivityIndicator, Alert, Dimensions, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Svg, { G, Path, Defs, LinearGradient as SvgLinearGradient, Stop, ClipPath } from "react-native-svg";
+import { LinearGradient } from 'expo-linear-gradient';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+
 
 const { width } = Dimensions.get('window');
 

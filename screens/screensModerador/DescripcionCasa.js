@@ -15,7 +15,7 @@ export default function DescripcionCasa() {
     { id: 5, image: require('../../assets/imgs/casa (6).jpg') },
     { id: 6, image: require('../../assets/imgs/casa (7).jpg') },
     { id: 7, image: require('../../assets/imgs/casa (8).jpg') },
-    { id: 8, image: require('../../assets/imgs/casa (8).jpeg') },
+    { id: 8, image: require('../../assets/imgs/casa 8.jpeg') },
     { id: 9, image: require('../../assets/imgs/casa (9).jpeg') },
   ];
 
